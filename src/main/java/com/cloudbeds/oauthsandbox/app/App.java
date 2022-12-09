@@ -20,6 +20,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -76,8 +77,11 @@ public class App extends Application {
         });
         final String titleSuffix = "";
         stage.setTitle("Oauth2 Sandbox" + titleSuffix);
-        stage.setWidth(1200);
-        stage.setHeight(800);
+        //stage.setWidth(1200);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        stage.setWidth(Math.min(screenSize.getWidth(), 1200));
+        stage.setHeight(Math.min(screenSize.getHeight(), 1200));
+        //stage.setHeight(800);
         System.setProperty("log4j.rootLogger", "INFO, consoleAppender");
         var javaVersion = SystemInfo.javaVersion();
         var javafxVersion = SystemInfo.javafxVersion();
