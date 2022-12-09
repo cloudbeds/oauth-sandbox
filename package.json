@@ -1,0 +1,25 @@
+{
+    "bin": {"oauth-sandbox-1-0-0": "jdeploy-bundle/jdeploy.js"},
+    "author": "Steve Hannah",
+    "description": "Tool to help get tokens for oauth login flow",
+    "main": "index.js",
+    "preferGlobal": true,
+    "repository": "",
+    "version": "1.0.0",
+    "jdeploy": {
+        "jdk": false,
+        "javaVersion": "17",
+        "jar": "target/oauth-sandbox-1.0.0.jar",
+        "javafx": true,
+        "title": "Oauth Sandbox",
+        "installers": ["mac-arm64", "mac-x64", "win", "linux"]
+    },
+    "dependencies": {
+        "njre": "^0.2.0",
+        "shelljs": "^0.8.4"
+    },
+    "license": "ISC",
+    "name": "cloudbeds-oauth-sandbox",
+    "files": ["jdeploy-bundle"],
+    "scripts": {"test": "echo \"Error: no test specified\" && exit 1"}
+}
