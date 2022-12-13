@@ -20,6 +20,8 @@
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
+            <Label text="Oauth2 URL" />
+            <TextField fx:id="authURLField" onAction="#oauthURLChanged" />
             <Label text="Client ID">
                <VBox.margin>
                   <Insets top="10.0" />

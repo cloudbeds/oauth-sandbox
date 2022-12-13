@@ -61,8 +61,6 @@ public class LoginFormController implements Initializable {
     @FXML
     private WebView webView;
 
-    @FXML
-    private TextField oauthURLField;
 
     @FXML
     private TextArea accessTokenField;
@@ -215,54 +213,7 @@ public class LoginFormController implements Initializable {
         }
     }
 
-    @FXML
-    private void oauthURLChanged() {
-        String newUrl = oauthURLField.getText();
-        log.info("New url is " + newUrl);
-        try {
-            URL url = new URL(newUrl);
-            String host = url.getHost();
-            String query = url.getQuery();
-            Map<String, String> splitQuery = splitQuery(url);
-            String oldClientId = appModel.getClientId();
-            boolean updateClientSecret;
-            if (splitQuery.containsKey("client_id") && !Objects.equals(oldClientId, splitQuery.get("client_id"))) {
-                appModel.setClientId(splitQuery.get("client_id"));
-                updateClientSecret = true;
-            }
-            if (splitQuery.containsKey("redirect_uri")) {
-                appModel.setRedirectUri(splitQuery.get("redirect_uri"));
-            }
-            appModel.setMfdServerUrl("https://" + host);
-            if (isEmpty(clientSecretManager.getSecretForClientID(appModel.getClientId()))) {
-                TextInputDialog dialog = new TextInputDialog();
-                dialog.setWidth(500);
-                dialog.setHeight(300);
-                dialog.setTitle("Enter your client secret");
-                dialog.setHeaderText("Please enter your client secret");
-                dialog.getDialogPane().setPrefWidth(500);
-                dialog.getDialogPane().setPrefHeight(350);
-                Optional<String> newClientSecret = dialog.showAndWait();
-                if (newClientSecret.isPresent()) {
-                    try {
-                        clientSecretManager.setSecretForClientID(appModel.getClientId(), newClientSecret.get());
-                    } catch (Exception ex) {
-                        log.error("Failed to save client secret", ex);
-                    }
-                }
-            }
 
-
-            DI.savePreferences(appModel);
-            refresh();
-
-
-        } catch (MalformedURLException e) {
-            log.error("Error occurred while processing Oauth url", e);
-        } catch (UnsupportedEncodingException e) {
-            log.error("Error occurred while processing Oauth url", e);
-        }
-    }
 
     private boolean isEmpty(String value) {
         return value == null || value.isEmpty();

@@ -12,14 +12,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
+import javafx.scene.control.TextInputDialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+
+import static com.cloudbeds.oauthsandbox.app.util.URLs.splitQuery;
 
 
 public class OAuthSettingsFormController implements Initializable {
@@ -40,6 +42,9 @@ public class OAuthSettingsFormController implements Initializable {
 
     @Inject
     private ConfigService configService;
+
+    @FXML
+    private TextField oauthURLField;
 
     @FXML
     private TextField clientId;
@@ -112,4 +117,31 @@ public class OAuthSettingsFormController implements Initializable {
             this.clientSecret.setText(clientSecret);
         }
     }
+
+    @FXML
+    private void oauthURLChanged() {
+        String newUrl = oauthURLField.getText();
+        if (newUrl == null || newUrl.isEmpty()) {
+            return;
+        }
+        try {
+            URL url = new URL(newUrl);
+            String host = url.getHost();
+            Map<String, String> splitQuery = splitQuery(url);
+            String oldClientId = appModel.getClientId();
+            if (splitQuery.containsKey("client_id") && !Objects.equals(oldClientId, splitQuery.get("client_id"))) {
+                clientId.setText(splitQuery.get("client_id"));
+                clientIDChanged();
+            }
+            if (splitQuery.containsKey("redirect_uri")) {
+                redirectURI.setText(splitQuery.get("redirect_uri"));
+            }
+            mfdServerList.getSelectionModel().select("https://" + host);
+        } catch (MalformedURLException e) {
+            log.error("Error occurred while processing Oauth url", e);
+        } catch (UnsupportedEncodingException e) {
+            log.error("Error occurred while processing Oauth url", e);
+        }
+    }
+
 }

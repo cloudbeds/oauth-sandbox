@@ -175,6 +175,7 @@ public class DI {
                 } catch (Exception ex) {
                     log.warn("Failed to extract value for field {} in class {}", destField, dest);
                 }
+                /*
                 if (val != null) {
 
                     if (destField.getType() == String.class) {
@@ -198,7 +199,7 @@ public class DI {
                             );
                         }
                     }
-                }
+                }*/
             }
         }
         if (changed) {
