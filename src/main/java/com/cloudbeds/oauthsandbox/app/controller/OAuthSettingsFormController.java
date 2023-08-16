@@ -69,8 +69,8 @@ public class OAuthSettingsFormController implements Initializable {
         redirectURI.setText(notNull(appModel.getRedirectUri()));
         List<String> options = new ArrayList<>(Arrays.asList(
                 "https://hotels.cloudbeds.com",
-                "https://hotels.dev-ga.cloudbeds-dev.com",
-                "https://hotels.stage-ga.cloudbeds-dev.com",
+                "https://hotels.cloudbeds-dev.com",
+                "https://hotels.cloudbeds-stage.com",
                 "https://hotels.acessa.loc"
                 )
         );
